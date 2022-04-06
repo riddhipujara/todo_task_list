@@ -4,6 +4,7 @@ import { Route, Routes, Link, BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import "./App.css";
 
 interface arr {
   id: string;
@@ -46,7 +47,6 @@ const App: React.FC = () => {
 
   const todoEditHandler = (todoId: string): void => {
     const todoData = todos.find((item) => item.id === todoId);
-    console.log(todoId);
     setTodoId(todoId);
     setTodoText(`${todoData?.text}`);
   };
@@ -54,7 +54,12 @@ const App: React.FC = () => {
   return (
     <Router>
       <nav>
-        <Link to="/home">Home</Link>
+        <ul>
+          <li>
+            {" "}
+            <Link to="/home">Create Form</Link>
+          </li>
+        </ul>
       </nav>
       <div className="App">
         <Routes>
