@@ -46,6 +46,7 @@ const App: React.FC = () => {
 
   const todoEditHandler = (todoId: string): void => {
     const todoData = todos.find((item) => item.id === todoId);
+    console.log(todoId);
     setTodoId(todoId);
     setTodoText(`${todoData?.text}`);
   };
