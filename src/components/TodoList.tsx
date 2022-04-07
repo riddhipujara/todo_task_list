@@ -8,16 +8,15 @@ interface iTodoList {
 }
 
 const TodoList: React.FC<iTodoList> = (props) => {
+  const { todos, todoDeleteHandler, todoEditHandler } = props;
   return (
     <ul>
-      {props.todos.map((item) => (
+      {todos.map((item) => (
         <li key={item.id}>
           <span>{item.text}</span>
           <div>
-            <button onClick={() => props.todoDeleteHandler(item.id)}>
-              DELETE
-            </button>
-            <button onClick={() => props.todoEditHandler(item.id)}>EDIT</button>
+            <button onClick={() => todoDeleteHandler(item.id)}>DELETE</button>
+            <button onClick={() => todoEditHandler(item.id)}>EDIT</button>
           </div>
         </li>
       ))}
