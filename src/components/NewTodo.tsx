@@ -27,7 +27,7 @@ const NewTodo: React.FC<iList> = (props) => {
     todoAddHandler();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const todoInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     todoChangeHandler(e.target.value);
   };
 
@@ -39,7 +39,7 @@ const NewTodo: React.FC<iList> = (props) => {
           <input
             type="text"
             id="todo-text"
-            onChange={handleChange}
+            onChange={todoInputChangeHandler}
             value={todoText}
           />
         </div>
