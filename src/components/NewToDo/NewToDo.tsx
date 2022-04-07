@@ -1,6 +1,6 @@
 import React from "react";
-import "./NewTodo.css";
-import TodoList from "./TodoList";
+import "./NewToDo.css";
+import TodoList from "../ToDo/ToDoList";
 
 interface iList {
   todos: { id: string; text: string }[];

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NewTodo from "./components/NewTodo";
+import NewTodo from "./components/NewToDo/NewToDo";
 import { Route, Routes, Link, BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
