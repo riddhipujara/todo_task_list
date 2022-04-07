@@ -1,35 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import "./NewToDo.css";
 import TodoList from "../ToDo/ToDoList";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
-interface iList {
-  todos: { id: string; text: string }[];
-  todoText: string;
-  todoAddHandler: () => void;
-  todoDeleteHandler: (id: string) => void;
-  todoEditHandler: (id: string) => void;
-  todoChangeHandler: (text: string) => void;
-  todoId: string;
+interface arr {
+  id: string;
+  text: string;
 }
 
-const NewTodo: React.FC<iList> = (props) => {
-  const {
-    todoAddHandler,
-    todoChangeHandler,
-    todos,
-    todoText,
-    todoDeleteHandler,
-    todoEditHandler,
-    todoId,
-  } = props;
-  const submitHandler = (event: React.FormEvent) => {
+const NewTodo: React.FC = () => {
+  const [todos, setTodos] = useState<arr[]>([]);
+  const [todoText, setTodoText] = useState<string>("");
+  const [todoId, setTodoId] = useState<string>("");
+
+  const todoAddHandler = (event: React.FormEvent): void => {
     event.preventDefault();
-    todoAddHandler();
+    if (todoId) {
+      const objIndex = todos.findIndex((item) => item.id === todoId);
+      todos[objIndex].text = todoText;
+      setTodos([...todos]);
+      toast.success("Task Updated successfully");
+      setTodoId("");
+      setTodoText("");
+    } else {
+      setTodos((prevTodos) => [
+        ...prevTodos,
+        { id: Math.random().toString(), text: todoText },
+      ]);
+      toast.success("Task Added successfully");
+      setTodoText("");
+    }
   };
 
-  const todoInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    todoChangeHandler(e.target.value);
+  const todoInputChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setTodoText(e.target.value);
+  };
+
+  const todoDeleteHandler = (todoId: string): void => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((item) => item.id !== todoId);
+    });
+    toast.success("Task Deleted successfully");
+  };
+
+  const todoEditHandler = (todoId: string): void => {
+    const todoData = todos.find((item) => item.id === todoId);
+    setTodoId(todoId);
+    setTodoText(`${todoData?.text}`);
   };
 
   return (
@@ -44,7 +63,7 @@ const NewTodo: React.FC<iList> = (props) => {
             value={todoText}
           />
         </div>
-        <button onClick={submitHandler}>
+        <button onClick={(e) => todoAddHandler(e)}>
           {todoId ? `UPDATE TODO` : `ADD TODO`}
         </button>
       </form>
