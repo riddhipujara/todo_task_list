@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import NewTodo from "./components/NewToDo/NewToDo";
 import { Route, Routes, Link, BrowserRouter as Router } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import "./App.css";
@@ -81,7 +80,6 @@ const App: React.FC = () => {
           ></Route>
         </Routes>
       </div>
-      <ToastContainer />
     </Router>
   );
 };

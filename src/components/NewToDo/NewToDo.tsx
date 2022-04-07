@@ -1,6 +1,7 @@
 import React from "react";
 import "./NewToDo.css";
 import TodoList from "../ToDo/ToDoList";
+import { ToastContainer } from "react-toastify";
 
 interface iList {
   todos: { id: string; text: string }[];
@@ -47,6 +48,7 @@ const NewTodo: React.FC<iList> = (props) => {
           {todoId ? `UPDATE TODO` : `ADD TODO`}
         </button>
       </form>
+      <ToastContainer />
       <TodoList
         todos={todos}
         todoDeleteHandler={todoDeleteHandler}
