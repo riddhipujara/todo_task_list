@@ -14,10 +14,10 @@ const TodoList: React.FC<iTodoList> = (props) => {
       {todos.map((item) => (
         <li key={item.id}>
           <span>{item.text}</span>
-          <div>
-            <button onClick={() => todoDeleteHandler(item.id)}>DELETE</button>
-            <button onClick={() => todoEditHandler(item.id)}>EDIT</button>
-          </div>
+          <button onClick={() => todoDeleteHandler(item.id)} className="btn_ml">
+            DELETE
+          </button>
+          <button onClick={() => todoEditHandler(item.id)}>EDIT</button>
         </li>
       ))}
     </ul>
