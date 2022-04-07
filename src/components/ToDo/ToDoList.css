@@ -16,7 +16,7 @@ li {
 }
 
 .btn_ml {
-  margin-left: 65%;
+  margin-inline-start: auto;
 }
 
 button {
