@@ -23,8 +23,8 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
+  border: "1px solid ",
+  boxShadow: 35,
   p: 4,
 };
 
@@ -56,19 +56,23 @@ const NewToDoModal: React.FC<iModalData> = (props) => {
     <div>
       <Modal
         open={modalOpen}
-        onClose={todoModalHandler}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography
             id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            sx={{ mb: 2 }}
+            sx={{
+              mb: 2,
+              textAlign: "center",
+              textTransform: "uppercase",
+              fontWeight: 600,
+              fontSize: 16,
+            }}
           >
             Create Task
           </Typography>
+          <hr style={{ backgroundColor: "purple" }}></hr>
           <TextField
             id="standard-basic"
             label="Task Name"
