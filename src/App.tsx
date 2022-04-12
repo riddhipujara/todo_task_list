@@ -7,13 +7,8 @@ import "./App.css";
 const App: React.FC = () => {
   return (
     <Router>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/home">Create Form</Link>
-          </li>
-        </ul>
-      </nav>
+      <Link to="/home">Home</Link>
+      <hr />
       <div className="App">
         <Routes>
           <Route path="/home" element={<NewTodo />}></Route>

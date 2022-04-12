@@ -1,41 +1,61 @@
 import React, { useState } from "react";
-import "./NewToDo.css";
 import TodoList from "../ToDo/ToDoList";
 import { ToastContainer, toast } from "react-toastify";
-
-interface arr {
-  id: string;
-  text: string;
-}
+import NewToDoModal from "./NewToDoModal";
+import AddIcon from "@mui/icons-material/Add";
+import Tooltip from "@mui/material/Tooltip";
+import { SelectChangeEvent } from "@mui/material/Select";
+import pick from "lodash.pick";
+import { IArr, IObj, initialState } from "./NewToDo.Model";
+import { Button } from "@mui/material";
 
 const NewTodo: React.FC = () => {
-  const [todos, setTodos] = useState<arr[]>([]);
-  const [todoText, setTodoText] = useState<string>("");
-  const [todoId, setTodoId] = useState<string>("");
+  const [todos, setTodos] = useState<IArr[]>([]);
+  const [todoData, setTodoData] = useState<IObj>({
+    ...initialState,
+  });
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const todoAddHandler = (event: React.FormEvent): void => {
-    event.preventDefault();
-    if (todoId) {
-      const objIndex = todos.findIndex((item) => item.id === todoId);
-      todos[objIndex].text = todoText;
+  const todoAddHandler = (): void => {
+    if (todoData.id !== "") {
+      const objIndex = todos.findIndex((item) => item.id === todoData.id);
+      todos[objIndex] = {
+        ...todoData,
+      };
       setTodos([...todos]);
       toast.success("Task Updated successfully");
-      setTodoId("");
-      setTodoText("");
+      clearStateHandler();
+      todoModalHandler();
     } else {
       setTodos((prevTodos) => [
         ...prevTodos,
-        { id: Math.random().toString(), text: todoText },
+        {
+          ...todoData,
+          id: Math.random().toString(),
+        },
       ]);
       toast.success("Task Added successfully");
-      setTodoText("");
+      clearStateHandler();
+      todoModalHandler();
     }
+  };
+
+  const clearStateHandler = (): void => {
+    setTodoData({ ...initialState });
   };
 
   const todoInputChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setTodoText(e.target.value);
+    const { name, value } = e.target;
+    todoData[name as keyof IObj] = value;
+    setTodoData({ ...todoData });
+  };
+
+  const todoInputSelectHandler = (event: SelectChangeEvent): void => {
+    const { name, value } = event.target;
+    todoData[name as keyof IObj] = value;
+    setTodoData({ ...todoData });
   };
 
   const todoDeleteHandler = (todoId: string): void => {
@@ -46,27 +66,45 @@ const NewTodo: React.FC = () => {
   };
 
   const todoEditHandler = (todoId: string): void => {
-    const todoData = todos.find((item) => item.id === todoId);
-    setTodoId(todoId);
-    setTodoText(`${todoData?.text}`);
+    todoModalHandler();
+    let todoObj = todos.find((item) => item.id === todoId);
+    setTodoData({
+      ...initialState,
+      ...pick(todoObj, ["id", "name", "desc", "status", "priority"]),
+    });
+  };
+
+  const todoModalHandler = (): void => {
+    clearStateHandler();
+    setModalOpen(!modalOpen);
   };
 
   return (
     <>
-      <form>
-        <div className="form-control">
-          <label htmlFor="todo-text">Todo Text</label>
-          <input
-            type="text"
-            id="todo-text"
-            onChange={todoInputChangeHandler}
-            value={todoText}
-          />
-        </div>
-        <button onClick={(e) => todoAddHandler(e)}>
-          {todoId ? `UPDATE TODO` : `ADD TODO`}
-        </button>
-      </form>
+      <Tooltip title="Create Task">
+        <Button
+          onClick={todoModalHandler}
+          size="small"
+          startIcon={<AddIcon />}
+          sx={{ mb: 2 }}
+          color="secondary"
+          variant="outlined"
+        >
+          Create Task
+        </Button>
+      </Tooltip>
+      {modalOpen && (
+        <NewToDoModal
+          {...{
+            todoModalHandler,
+            todoInputSelectHandler,
+            modalOpen,
+            todoInputChangeHandler,
+            todoAddHandler,
+            todoData,
+          }}
+        />
+      )}
       <ToastContainer />
       <TodoList
         todos={todos}
