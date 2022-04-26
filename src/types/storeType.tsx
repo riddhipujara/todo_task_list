@@ -6,7 +6,7 @@ export type IArr = {
   priority: string;
 };
 
-interface storeType {
+export interface storeType {
   todos: IArr[];
 }
 

@@ -10,10 +10,15 @@ import { IObj, initialState, AppPropType } from "./NewToDo.Model";
 import { Button } from "@mui/material";
 import { connect } from "react-redux";
 import storeType from "../../types/storeType";
-import { createTodo } from "../../action/";
+import { createTodo, updateTodo, deleteTodo } from "../../action/";
 import get from "lodash.get";
 
-const NewTodo: React.FC<AppPropType> = ({ todos, createTodo }) => {
+const NewTodo: React.FC<AppPropType> = ({
+  todos,
+  createTodo,
+  updateTodo,
+  deleteTodo,
+}) => {
   const [todoData, setTodoData] = useState<IObj>({
     ...initialState,
   });
@@ -21,11 +26,7 @@ const NewTodo: React.FC<AppPropType> = ({ todos, createTodo }) => {
 
   const todoAddHandler = (): void => {
     if (todoData.id !== "") {
-      const objIndex = todos.findIndex((item) => item.id === todoData.id);
-      todos[objIndex] = {
-        ...todoData,
-      };
-      // createTodo(todos);
+      updateTodo(todoData);
       toast.success("Task Updated successfully");
       clearStateHandler();
       todoModalHandler();
@@ -60,10 +61,8 @@ const NewTodo: React.FC<AppPropType> = ({ todos, createTodo }) => {
   };
 
   const todoDeleteHandler = (todoId: string): void => {
-    // setTodos((prevTodos) => {
-    //   return prevTodos.filter((item) => item.id !== todoId);
-    // });
-    // toast.success("Task Deleted successfully");
+    deleteTodo(todoId);
+    toast.success("Task Deleted successfully");
   };
 
   const todoEditHandler = (todoId: string): void => {
@@ -108,7 +107,7 @@ const NewTodo: React.FC<AppPropType> = ({ todos, createTodo }) => {
       )}
       <ToastContainer />
       <TodoList
-        todos={get(todos, "todo", {})}
+        todos={todos}
         todoDeleteHandler={todoDeleteHandler}
         todoEditHandler={todoEditHandler}
       />
@@ -118,8 +117,10 @@ const NewTodo: React.FC<AppPropType> = ({ todos, createTodo }) => {
 
 const mapStateToProps = (state: storeType) => {
   return {
-    todos: state.todos,
+    todos: get(state, "todos.todos"),
   };
 };
 
-export default connect(mapStateToProps, { createTodo })(NewTodo);
+export default connect(mapStateToProps, { createTodo, updateTodo, deleteTodo })(
+  NewTodo
+);
