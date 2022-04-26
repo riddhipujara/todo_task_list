@@ -6,11 +6,14 @@ import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 import { SelectChangeEvent } from "@mui/material/Select";
 import pick from "lodash.pick";
-import { IArr, IObj, initialState } from "./NewToDo.Model";
+import { IObj, initialState, AppPropType } from "./NewToDo.Model";
 import { Button } from "@mui/material";
+import { connect } from "react-redux";
+import storeType from "../../types/storeType";
+import { createTodo } from "../../action/";
+import get from "lodash.get";
 
-const NewTodo: React.FC = () => {
-  const [todos, setTodos] = useState<IArr[]>([]);
+const NewTodo: React.FC<AppPropType> = ({ todos, createTodo }) => {
   const [todoData, setTodoData] = useState<IObj>({
     ...initialState,
   });
@@ -22,18 +25,16 @@ const NewTodo: React.FC = () => {
       todos[objIndex] = {
         ...todoData,
       };
-      setTodos([...todos]);
+      // createTodo(todos);
       toast.success("Task Updated successfully");
       clearStateHandler();
       todoModalHandler();
     } else {
-      setTodos((prevTodos) => [
-        ...prevTodos,
-        {
-          ...todoData,
-          id: Math.random().toString(),
-        },
-      ]);
+      const dataObj = {
+        ...todoData,
+        id: Math.random().toString(),
+      };
+      createTodo(dataObj);
       toast.success("Task Added successfully");
       clearStateHandler();
       todoModalHandler();
@@ -59,10 +60,10 @@ const NewTodo: React.FC = () => {
   };
 
   const todoDeleteHandler = (todoId: string): void => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter((item) => item.id !== todoId);
-    });
-    toast.success("Task Deleted successfully");
+    // setTodos((prevTodos) => {
+    //   return prevTodos.filter((item) => item.id !== todoId);
+    // });
+    // toast.success("Task Deleted successfully");
   };
 
   const todoEditHandler = (todoId: string): void => {
@@ -107,7 +108,7 @@ const NewTodo: React.FC = () => {
       )}
       <ToastContainer />
       <TodoList
-        todos={todos}
+        todos={get(todos, "todo", {})}
         todoDeleteHandler={todoDeleteHandler}
         todoEditHandler={todoEditHandler}
       />
@@ -115,4 +116,10 @@ const NewTodo: React.FC = () => {
   );
 };
 
-export default NewTodo;
+const mapStateToProps = (state: storeType) => {
+  return {
+    todos: state.todos,
+  };
+};
+
+export default connect(mapStateToProps, { createTodo })(NewTodo);
