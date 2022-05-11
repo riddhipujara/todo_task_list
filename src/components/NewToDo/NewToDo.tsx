@@ -7,7 +7,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { SelectChangeEvent } from "@mui/material/Select";
 import pick from "lodash.pick";
 import { IObj, initialState, AppPropType } from "./NewToDo.Model";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { connect } from "react-redux";
 import storeType from "../../types/storeType";
 import { createTodo, updateTodo, deleteTodo } from "../../action/";
@@ -81,36 +81,38 @@ const NewTodo: React.FC<AppPropType> = ({
 
   return (
     <>
-      <Tooltip title="Create Task">
-        <Button
-          onClick={todoModalHandler}
-          size="small"
-          startIcon={<AddIcon />}
-          sx={{ mb: 2 }}
-          color="secondary"
-          variant="outlined"
-        >
-          Create Task
-        </Button>
-      </Tooltip>
-      {modalOpen && (
-        <NewToDoModal
-          {...{
-            todoModalHandler,
-            todoInputSelectHandler,
-            modalOpen,
-            todoInputChangeHandler,
-            todoAddHandler,
-            todoData,
-          }}
+      <Box component="main" sx={{ flexGrow: 1, p: 4, mt: 4 }}>
+        <Tooltip title="Create Task">
+          <Button
+            onClick={todoModalHandler}
+            size="small"
+            startIcon={<AddIcon />}
+            sx={{ mb: 2, mt: 2 }}
+            color="primary"
+            variant="outlined"
+          >
+            Create Task
+          </Button>
+        </Tooltip>
+        {modalOpen && (
+          <NewToDoModal
+            {...{
+              todoModalHandler,
+              todoInputSelectHandler,
+              modalOpen,
+              todoInputChangeHandler,
+              todoAddHandler,
+              todoData,
+            }}
+          />
+        )}
+        <ToastContainer />
+        <TodoList
+          todos={todos}
+          todoDeleteHandler={todoDeleteHandler}
+          todoEditHandler={todoEditHandler}
         />
-      )}
-      <ToastContainer />
-      <TodoList
-        todos={todos}
-        todoDeleteHandler={todoDeleteHandler}
-        todoEditHandler={todoEditHandler}
-      />
+      </Box>
     </>
   );
 };

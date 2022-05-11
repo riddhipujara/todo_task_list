@@ -72,7 +72,7 @@ const NewToDoModal: React.FC<iModalData> = (props) => {
           >
             Create Task
           </Typography>
-          <hr style={{ backgroundColor: "purple" }}></hr>
+          <hr style={{ backgroundColor: "blue" }}></hr>
           <TextField
             id="standard-basic"
             label="Task Name"
@@ -165,7 +165,7 @@ const NewToDoModal: React.FC<iModalData> = (props) => {
             size="small"
             fullWidth={true}
             sx={{ mt: 2 }}
-            color="secondary"
+            color="primary"
             variant="outlined"
           >
             {id ? `UPDATE TODO` : `ADD TODO`}

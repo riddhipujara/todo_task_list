@@ -29,7 +29,7 @@ interface iTodoList {
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#50005a",
+    backgroundColor: "#006DCC",
     color: theme.palette.common.white,
     textTransform: "uppercase",
     fontSize: 14,
@@ -81,7 +81,7 @@ const TodoList: React.FC<iTodoList> = (props) => {
                   onClick={() => todoDeleteHandler(row.id)}
                   size="small"
                   startIcon={<DeleteIcon />}
-                  color="secondary"
+                  color="primary"
                   variant="outlined"
                 >
                   DELETE
@@ -93,7 +93,7 @@ const TodoList: React.FC<iTodoList> = (props) => {
                   onClick={() => todoEditHandler(row.id)}
                   size="small"
                   startIcon={<EditIcon />}
-                  color="secondary"
+                  color="primary"
                   variant="outlined"
                 >
                   EDIT
