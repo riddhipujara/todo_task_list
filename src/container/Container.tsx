@@ -34,7 +34,7 @@ const Container: React.FC = () => {
   };
 
   const handleListToggle = (value: string): void => {
-    navigate(`/${value.toLowerCase()}Form`);
+    navigate(`/${value.toLowerCase()}`);
   };
   return (
     <>
